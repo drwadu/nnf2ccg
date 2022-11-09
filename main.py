@@ -92,15 +92,15 @@ def transpile(
             if n_children == 0:
                 popped_ids.add(i)
                 node_id_diffs[i] = node_count
+                n_popped += 1
             elif n_children == 1:
                 is_root = i == node_count - 1
                 if not is_root:
                     _, nnf_child_node, ccg_child_id = children[0]
                     node = nnf_child_node
                     node_id_diffs[i] = ccg_child_id
-                else:
-                    popped_ids.add(i)
-                    n_popped += 1
+                n_popped += 1
+                popped_ids.add(i)
             else:
                 n_nodes += 1
                 n_edges += n_children
@@ -119,6 +119,7 @@ def transpile(
                 node_id_diffs[i] = i - n_popped
             nodes.append(node)
 
+        #if node == [2,16,19,0]: print(children[0])
         line = next(nnf, None)
         i += 1
 
@@ -131,6 +132,10 @@ def transpile(
     )
 
     node_count_ccg = len(ccg)
+    print(node_count_ccg)
+    print(node_count)
+    print(n_popped)
+    print(ccg)
     assert node_count_ccg == node_count - n_popped
     assert node_count_ccg == n_nodes
 
