@@ -119,7 +119,6 @@ def transpile(
                 node_id_diffs[i] = i - n_popped
             nodes.append(node)
 
-        #if node == [2,16,19,0]: print(children[0])
         line = next(nnf, None)
         i += 1
 
@@ -132,10 +131,6 @@ def transpile(
     )
 
     node_count_ccg = len(ccg)
-    print(node_count_ccg)
-    print(node_count)
-    print(n_popped)
-    print(ccg)
     assert node_count_ccg == node_count - n_popped
     assert node_count_ccg == n_nodes
 
