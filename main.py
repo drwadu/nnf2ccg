@@ -140,7 +140,9 @@ def transpile(
     stats = f"ccg {node_count_ccg} {n_edges} {new_vars_count} {log10(count)}"
 
     print(stats)
-    map(lambda t: print(f"c {t[0]} {t[1]}"), cnf_mappings)
+    #map(lambda t: print(f"c {t[0]} {t[1]}"), cnf_mappings)
+    for a,b in cnf_mappings.items():
+        print(f"c {a} {b}")
     for node in ccg:
         node_size = len(node)
         if node_size == 2:
