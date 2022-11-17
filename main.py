@@ -15,13 +15,6 @@ def transpile(
     name = nnf_path.split(".")[0]
 
     lp = open(lp_path, "r").read()
-    not_show = list(
-        map(
-            lambda l: l.replace("#show", "").replace(" ", "").replace("\n","").split("/")[0],
-            filter(lambda l: "#show" in l, lp.split(".")),
-        )
-    )
-    print(not_show)
     ctl = Control("0")
     ctl.add("base", [], lp)
     ctl.ground([("base", [])])
@@ -33,11 +26,13 @@ def transpile(
             filter(lambda l: l.startswith("c "), open(cnf_path, "r").readlines()),
         )
     }
+    print(cnf_mappings)
     atom_mappings, supported_atoms = dict(), []
     for atom in ctl.symbolic_atoms:  # one traversal vs. comprehension
         s = str(atom.symbol)
-        if any([a in s for a in not_show]):
-            atom_mappings[cnf_mappings[s]] = atom.literal
+        x = cnf_mappings.get(s, None)
+        if x:
+            atom_mappings[x] = atom.literal
             supported_atoms.append(s)
     falsified = list(
         map(

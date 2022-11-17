@@ -1,0 +1,44 @@
+c WARNING: for repeatability, setting FPU to use double precision
+c Problem Statistics:
+c
+c [33mBenchmark Information[0m
+c Number of variables: 11
+c Number of clauses: 23
+c Number of literals: 49
+c Parse time: 0.00
+c
+c
+c Backbone simplification
+c The number of unit literal found is: 0
+c Time to realize the backbone simplification: 0.000000
+c
+c [33mCollect Bi-Partition Procedure[0m
+c Time to sort the selector: 0.000000
+c Number of input variables computed: 2
+c Time to compute the bi-partition: 0.000000
+c
+c Number of variables forgotten: 8
+c Number of iterations: 2
+c
+c Vivification, total time: 0.000001
+c Vivification, number of clauses removed: 9
+c Vivification, number of literals removed: 1
+c
+c Occurrence Elimination, total time: 0.000002
+c Occurrence Elimination, number of literals removed: 0
+c Time used for the preprocessing step: 0.000015
+c
+p cnf 11 10
+4 -2 0
+-1 0
+c The variables forgot
+11 0
+10 0
+9 0
+6 0
+7 0
+5 0
+8 0
+3 0
+c The number of literals is: 2
+c The number of variables is: 2
