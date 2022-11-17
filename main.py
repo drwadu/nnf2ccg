@@ -15,6 +15,13 @@ def transpile(
     name = nnf_path.split(".")[0]
 
     lp = open(lp_path, "r").read()
+    not_show = list(
+        map(
+            lambda l: l.replace("#show", "").replace(" ", "").replace("\n","").split("/")[0],
+            filter(lambda l: "#show" in l, lp.split(".")),
+        )
+    )
+    print(not_show)
     ctl = Control("0")
     ctl.add("base", [], lp)
     ctl.ground([("base", [])])
@@ -29,8 +36,9 @@ def transpile(
     atom_mappings, supported_atoms = dict(), []
     for atom in ctl.symbolic_atoms:  # one traversal vs. comprehension
         s = str(atom.symbol)
-        atom_mappings[cnf_mappings[s]] = atom.literal
-        supported_atoms.append(s)
+        if any([a in s for a in not_show]):
+            atom_mappings[cnf_mappings[s]] = atom.literal
+            supported_atoms.append(s)
     falsified = list(
         map(
             lambda a: cnf_mappings[a],
@@ -123,11 +131,13 @@ def transpile(
         i += 1
 
     ccg = list(
-        map(lambda t: t[1], 
-        filter(
-            lambda t: t[0] not in atom_popped_ids and t[0] not in popped_ids,
-            enumerate(nodes),
-        ))
+        map(
+            lambda t: t[1],
+            filter(
+                lambda t: t[0] not in atom_popped_ids and t[0] not in popped_ids,
+                enumerate(nodes),
+            ),
+        )
     )
 
     node_count_ccg = len(ccg)
@@ -140,8 +150,8 @@ def transpile(
     stats = f"ccg {node_count_ccg} {n_edges} {new_vars_count} {log10(count)}"
 
     print(stats)
-    #map(lambda t: print(f"c {t[0]} {t[1]}"), cnf_mappings)
-    for a,b in cnf_mappings.items():
+    # map(lambda t: print(f"c {t[0]} {t[1]}"), cnf_mappings)
+    for a, b in cnf_mappings.items():
         print(f"c {b} {a}")
     for node in ccg:
         node_size = len(node)
@@ -158,7 +168,6 @@ def transpile(
             for s in node[1:last_idx]:
                 print(f"{s}", end=" ")
             print()
-
 
 
 if __name__ == "__main__":
