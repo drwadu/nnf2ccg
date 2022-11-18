@@ -26,7 +26,7 @@ def transpile(
             filter(lambda l: l.startswith("c "), open(cnf_path, "r").readlines()),
         )
     }
-    print(cnf_mappings)
+
     atom_mappings, supported_atoms = dict(), []
     for atom in ctl.symbolic_atoms:  # one traversal vs. comprehension
         s = str(atom.symbol)
